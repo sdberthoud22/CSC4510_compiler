@@ -418,6 +418,8 @@ void scanner::scan_string()
 		}
 		get_char();
 	}
+
+	current_symbol = new symbol(symbol::strng);
 	return;
 }
 
@@ -534,6 +536,40 @@ void scanner::scan_digit()
     	// PARSER CAN BE STARTED.
 
 	// INSERT CODE HERE.
+	current_integer_value = 0;
+	current_real_value = 0;
+	bool isReal = false;
+	float tempNum = 0;
+	int decimalPlace = -1;
+	bool eod = false;
+
+	while(!eod) {
+		if(is_digit(next_char)) {
+			tempNum * 10;
+			tempNum += next_char;
+		} if(next_char == '.') {
+			if(following_char() == '.') {
+				scan_special_symbol();
+			} else {
+				tempNum += (next_char * 10^decimalPlace)
+				decimalPlace--;
+				isReal = true;
+			}
+		} else {
+			eod = true;
+		}
+		get_char();
+	}
+
+	if(isReal) {
+		current_real_value = tempNum;
+		current_symbol = new symbol(symbol::real_sym);
+	} else {
+		current_integer_value = tempNum;
+		current_symbol = new symbol(symbol::integer_sym);
+	}
+
+	return;
 
 }
 
