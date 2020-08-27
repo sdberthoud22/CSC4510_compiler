@@ -1,0 +1,41 @@
+INC	0	3	(1)	alloc vars: 0 - number, 1 - dNumber, 2 - qNumber
+JMP	0	22	(2)	jump to main
+LDV	0	0	(3)	proc double - load in parameter n1 onto tos
+LDV	0	0	(4)	load in parameter n1 onto tos
+OPR	0	3	(5)	n1 + n1
+LDV	0	1	(6)	load address of out parameter n2 onto tos
+STI	0	0	(7)	store n1 + n1 in address of out parameter n2
+OPR	0	0	(8)	return
+INC	0	1	(9)	proc quadruple - alloc var: 2 - n
+MST	1	0	(10)	mark stack - level dif to decl of proc double is 1
+LDV	0	0	(11)	load in param n1 onto tos as an in param for double
+LDA	0	2	(12)	load address of n onto tos as an out param for double
+CAL	2	3	(13)	call double: 2 parameters, starts at instruction 3
+MST	1	0	(14)	mark stack - level dif to decl of proc double is 1
+LDV	0	2	(15)	load n onto tos as an in parameter for double
+LDA	0	2	(16)	load address of n onto tos as an out param for double
+CAL	2	3	(17)	call double: 2 parameters, starts at instruction 3
+LDV	0	2	(18)	load n onto tos
+LDV	0	1	(19)	load address of out parameter n2 onto tos
+STI	0	0	(20)	store n in address of out parameter n2
+OPR	0	0	(21)	return
+RDI	0	0	(22)	read number
+MST	0	0	(23)	mark stack - level diff to decl of proc double is 0
+LDV	0	0	(24)	load number onto tos as in parameter for double
+LDA	0	1	(25)	load address of dNumber onto tos as out param for double
+CAL	2	3	(26)	call double: 2 parameters, starts at instruction 3
+MST	0	0	(27)	mark stack - level diff to decl of proc quadruple is 0
+LDV	0	0	(28)	load number onto tos as in parameter for quadruple
+LDA	0	2	(29)	load address of qNumber onto tos as out param for quadruple
+CAL	2	9	(30)	call quadruple: 2 parameters, starts at instruction 9
+LDV	0	0	(31)	load number onto tos
+OPR	0	27	(32)	convert integer to string
+LDV	0	1	(33)	load dNumber onto tos
+OPR	0	27	(34)	convert integer to string
+OPR	0	8	(35)	concatenate strings
+LDV	0	2	(36)	load qNumber onto tos
+OPR	0	27	(37)	convert integer to string
+OPR	0	8	(38)	concateneate strings
+OPR	0	20	(39)	write string
+OPR	0	21	(40)	newline
+JMP	0	0	(41)	halt

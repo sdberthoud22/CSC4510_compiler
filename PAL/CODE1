@@ -1,0 +1,11 @@
+INC	0	3	(1)	alloc vars: 0 - x, 1 - y, 2 - z
+RDI	0	0	(2)	read x
+RDI	0	1	(3)	read y
+LDV	0	0	(4)	load x onto top of stack
+LDV	0	1	(5)	load y onto top of stack
+OPR	0	3	(6)	x + y
+STO	0	2	(7)	z := x + y
+LDV	0	2	(8)	load z onto top of stack
+OPR	0	20	(9)	write z
+OPR	0	22	(10)	newline
+JMP	0	0	(11)	halt

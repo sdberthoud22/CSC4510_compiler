@@ -1,0 +1,17 @@
+INC	0	2	(1)	alloc vars: 0 - number; 1 - newNumber
+JMP	0	9	(2)	jump to main
+LDV	0	0	(3)	load value parameter n1 onto tos
+LDV	0	0	(4)	load value parameter n1 onto tos
+OPR	0	3	(5)	n1 + n1
+LDV	0	1	(6)	load address of ref parameter n2 onto tos
+STI	0	0	(7)	store n1 + n1 in address of ref parameter n2
+OPR	0	0	(8)	return
+RDI	0	0	(9)	read number
+MST	0	0	(10)	mark the stack - level dif to decl of proc double is 0
+LDV	0	0	(11)	load value of number onto tos as an in parameter for double
+LDA	0	1	(12)	load address newNumber onto tos as an out param for double
+CAL	2	3	(13)	call double: 2 parameters; starts at instuction 3
+LDV	0	1	(14)	load newNumber onto tos
+OPR	0	20	(15)	write newNumber
+OPR	0	22	(16)	newline
+JMP	0	0	(17)	halt
