@@ -400,6 +400,25 @@ void scanner::scan_string()
     	// PARSER CAN BE STARTED.
 
 	// INSERT CODE HERE.
+	get_char();
+	current_string_value = "";
+	bool eos = false;
+
+	while(!eos) {
+		if (next_char == '"' && following_char() != '"') {
+			get_char();
+			eos = true;
+		} else if (next_char == '"' && following_char() == '"') {
+			current_string_value += char(next_char);
+			get_char();
+		} else if (next_char == "\n") {
+			eos = true;
+		} else {
+			current_string_value += char(next_char);
+		}
+		get_char();
+	}
+	return;
 }
 
 
