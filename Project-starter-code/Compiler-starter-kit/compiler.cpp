@@ -207,6 +207,7 @@ bool process_command_line(int argc, char *argv[]) {
                         do
                         {
                                 tok = scan->get_token();
+                                tok->print_token();
                         } while (tok->get_sym() != symbol::end_of_program);
                         //END OF CODE FOR TESTING PURPOSES
 

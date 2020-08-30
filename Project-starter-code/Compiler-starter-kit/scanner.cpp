@@ -400,23 +400,21 @@ void scanner::scan_string()
     	// PARSER CAN BE STARTED.
 
 	// INSERT CODE HERE.
-	get_char();
 	current_string_value = "";
 	bool eos = false;
 
 	while(!eos) {
+		get_char();
 		if (next_char == '"' && following_char() != '"') {
-			get_char();
 			eos = true;
 		} else if (next_char == '"' && following_char() == '"') {
 			current_string_value += char(next_char);
 			get_char();
-		} else if (next_char == "\n") {
+		} else if (next_char == '\n') {
 			eos = true;
 		} else {
 			current_string_value += char(next_char);
 		}
-		get_char();
 	}
 
 	current_symbol = new symbol(symbol::strng);
@@ -544,14 +542,14 @@ void scanner::scan_digit()
 	bool eod = false;
 
 	while(!eod) {
-		if(is_digit(next_char)) {
+		if(isdigit(next_char)) {
 			tempNum * 10;
 			tempNum += next_char;
 		} if(next_char == '.') {
 			if(following_char() == '.') {
 				scan_special_symbol();
 			} else {
-				tempNum += (next_char * 10^decimalPlace)
+				tempNum += (next_char * 10^decimalPlace);
 				decimalPlace--;
 				isReal = true;
 			}
