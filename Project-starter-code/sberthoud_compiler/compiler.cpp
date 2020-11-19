@@ -40,7 +40,7 @@
 
 #include "lille_exception.h"
 #include "scanner.h"
-//#include "parser.h"
+#include "parser.h"
 #include "symbol.h"
 #include "error_handler.h"
 //#include "code_gen.h"
@@ -61,7 +61,7 @@ string listing_filename;						// name of the listing file to be generated if nee
 
 error_handler* err;								// error handler object
 scanner* scan;									// scanner object
-//parser* parse;									// parser object
+parser* parse;									// parser object
 id_table* id_tab = NULL;								// symbol table object
 //code_gen* code;									// code generator
 
@@ -202,13 +202,14 @@ bool process_command_line(int argc, char *argv[]) {
 
 			// THE FOLLOWIG CODE IS FOR TESTING PURPOSES ONLY.
                         scan = new scanner(source_filename, id_tab, err);
-
-                        token* tok;
+                        parse = new parser(err, id_tab, scan);
+                        parse->parse();
+                        /*token* tok;
                         do
                         {
                                 tok = scan->get_token();
                                 tok->print_token();
-                        } while (tok->get_sym() != symbol::end_of_program);
+                        } while (tok->get_sym() != symbol::end_of_program);*/
                         //END OF CODE FOR TESTING PURPOSES
 
 

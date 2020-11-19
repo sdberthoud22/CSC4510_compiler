@@ -410,7 +410,8 @@ void scanner::scan_string()
 		} else if (next_char == '"' && following_char() == '"') {
 			current_string_value += char(next_char);
 			get_char();
-		} else if (next_char == '\n') {
+		} else if (eoln_flag) {
+			error->flag(current_line_number, current_pos_on_line, 60);
 			eos = true;
 		} else {
 			current_string_value += char(next_char);
@@ -534,39 +535,78 @@ void scanner::scan_digit()
     	// PARSER CAN BE STARTED.
 
 	// INSERT CODE HERE.
-	current_integer_value = 0;
-	current_real_value = 0;
+	string tempNum = "";
+	string tempExp = "";
+	int firstExp = 0;
 	bool isReal = false;
-	float tempNum = 0;
-	int decimalPlace = -1;
+	bool isExp = false;
 	bool eod = false;
+	bool exponent = false;
 
 	while(!eod) {
 		if(isdigit(next_char)) {
-			tempNum * 10;
 			tempNum += next_char;
-		} if(next_char == '.') {
+			get_char();
+		} else if(next_char == '.') {
 			if(following_char() == '.') {
 				scan_special_symbol();
+				return;
+			} else if(!isdigit(following_char())) {
+				error->flag(current_line_number, current_pos_on_line, 63);
 			} else {
-				tempNum += (next_char * 10^decimalPlace);
-				decimalPlace--;
 				isReal = true;
+				tempNum += next_char;
 			}
+			get_char();
+		} else if(next_char == 'e') {
+			exponent = true;
+			isExp = true;
+			eod = true;
+			get_char();
 		} else {
 			eod = true;
+			break;
 		}
-		get_char();
+	}
+
+	while(exponent) {
+		if(!isReal && next_char == '-') {
+			error->flag(current_line_number, current_pos_on_line, 67);
+			exponent = false;
+			get_char();
+		} else if(!isdigit(next_char) && firstExp == 0) {
+			error->flag(current_line_number, current_pos_on_line, 64);
+			exponent = false;
+			get_char();
+		} else if (isdigit(next_char) || next_char == '.') {
+			tempExp += next_char;
+			firstExp++;
+			get_char();
+		} else {
+			exponent = false;
+			break;
+		}
 	}
 
 	if(isReal) {
-		current_real_value = tempNum;
-		current_symbol = new symbol(symbol::real_sym);
+		if(isExp) {
+			current_real_value = stod(tempNum) * pow(10, stod(tempExp));
+			current_symbol = new symbol(symbol::real_num);
+		} else {
+			current_real_value = stod(tempNum);
+			current_symbol = new symbol(symbol::real_num);
+		}
 	} else {
-		current_integer_value = tempNum;
-		current_symbol = new symbol(symbol::integer_sym);
+		if(isExp) {
+			current_integer_value = stoi(tempNum) * pow(10, stoi(tempExp));
+			current_symbol = new symbol(symbol::integer);
+		} else {
+			current_integer_value = stoi(tempNum);
+			current_symbol = new symbol(symbol::integer);		
+		}
 	}
 
+	
 	return;
 
 }
